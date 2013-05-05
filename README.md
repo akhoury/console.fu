@@ -3,7 +3,7 @@ console.fu, a Chrome Extension
 
 Built this to suppress console.[log,error,warn,trace] messages that spam your dev console,
 use keywords to blacklist messages
-when debugging a highly active Ajaxy page, I f*cking hate the non stop XHR message spam !
+> when debugging a highly active Ajaxy page, I f*cking hate the non stop XHR message spam !
 
 Usage (in console)
 ==================
