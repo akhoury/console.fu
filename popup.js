@@ -1,3 +1,1 @@
-$(function(){
-// nothing yet
-});
+// nothing to see here, gtfo

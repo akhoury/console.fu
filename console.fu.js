@@ -1,6 +1,8 @@
 
 /* github.com/akhoury/console.fu */
 
+'use strict';
+
 (function(undefined){
     if (!window.cfu) {
         window.cfu = {};
