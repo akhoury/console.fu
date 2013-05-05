@@ -3,13 +3,38 @@
     <style>
         div, td, th { color: black; }
     </style>
-    <script src="jquery.min.js"></script>
-    <script src="popup.js"></script>
 </head>
 <body style="width: 400px">
-<div>Settings</div>
-<input id="newword" type="text" placeholder="new blacklisted term">
-<input id="add" type="button" value="Add keyword">
-<div id="blacklisted"></div>
+<h3>hAlp!</h3>
+<p> a quick hack to intercept the console.X functions and stop them from spamming your console.</p>
+<p> Go to the page's console that your debugging, and add keywords to its blacklist, then intercept the
+console.X functions of your choice ('error', 'log', 'warn', 'trace' ) and that's it. if you want a nice UI here, implement it</p>
+<ul>
+    <li>
+        <em><code>cfu.add_to_blacklist("keyword")</code></em>
+        <small> to add string keyword to the blacklist</small>
+    </li>
+    <li><em><code>cfu.intercept_fn('error')</code></em>
+        <small>Intercept the console.X function by passing a string of it's name ['error', 'log', 'warn', 'trace']</small>
+    </li>
+    <li>
+        <em><code>cfu.restore_fn('error')</code></em>
+        <small>Restore the original console.X function by passing a string of it's name ['error', 'log', 'warn', 'trace']</small>
+    </li>
+
+    <li>
+        <em><code>cfu.remove_from_blacklist("keyword")</code></em>
+        <em><code> remove from blacklist </code></em>
+    </li>
+    <li>
+        <em><code>cfu.get_blacklist()</code></em>
+        <small> return an array of all the blacklisted keywords</small>
+    </li>
+    <li>
+        <em><code>cfu.clear_blacklist()</code></em>
+        <small> to clear the blacklist</small>
+    </li>
+
+</ul>
 </body>
 </html>

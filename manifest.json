@@ -1,25 +1,29 @@
 {
-  "name": "console.fu",
-  "version": "0.1",
-  "description": "Control what errors and logs you want to hide in your dev console.",
-  "content_scripts": [
-    {
-      "matches": ["https://*/*", "http://*/*"],
-      "js": ["jquery.min.js", "background.js"]
-    }
-  ],
-  "permissions": [
-    "tabs",
-    "http://*/*",
-    "https://*/*",
-     "storage"
+    "name": "console.fu",
+    "version": "0.1",
+    "description": "Control what errors and logs you want to hide in your dev console.",
+    "content_scripts": [
+        {
+            "matches": ["https://*/*", "http://*/*"],
+            "js": ["injector.js"],
+            "run_at" : "document_end"
+        }
+    ],
+    "permissions": [
+        "tabs",
+        "http://*/*",
+        "https://*/*",
+        "storage"
 
-  ],
-  "browser_action": {
-    "default_title": "Console FU Settings",
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
-    "web_accessible_resources": ["main.js"],
+    ],
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "browser_action": {
+        "default_title": "Console FU Settings",
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "web_accessible_resources": ["console.fu.js"],
     "manifest_version": 2
 }
