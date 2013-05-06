@@ -1,3 +1,12 @@
+READ THIS:
+=========
+Turns out I wasted my Sunday; Chrome already supports hiding XHR logs and few other things, not everything, but it's decent.
+So I am dropping support for this tool.
+
+here's how Chrome does it, right click on your console and you will see this:
+
+![Right-Click on console](img/shot.png "Chrome dev tool")
+
 console.fu, a Chrome Extension
 ==============================
 
@@ -56,6 +65,7 @@ TODO
 ====
 * better UI in the extension's popup, to check settings there instead of using the console
 * RegEx instead of lame keywords
+* Add console.trace to the supported functions
 * testing
 * i don't know, can you come up with something ?
 
