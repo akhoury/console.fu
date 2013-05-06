@@ -1,7 +1,7 @@
 READ THIS:
 =========
 Turns out I wasted my Sunday; Chrome already supports hiding XHR logs and few other things, not everything, but it's decent.
-So I am dropping support for this tool.
+So I am dropping support for this tool, unless you think I shouldn't for a good reason.
 
 here's how Chrome does it, right click on your console and you will see this:
 

@@ -10,7 +10,7 @@
 <h3>hAlp!</h3>
 <p> a quick hack to intercept the console.X functions and stop them from spamming your console.</p>
 <p> Go to the page's console that your debugging, and add keywords to its blacklist, then intercept the
-console.X functions of your choice ('error', 'log', 'warn' ) and that's it. <b>if you want a nice UI here, implement it</b></p>
+console.X functions of your choice ('error', 'log', 'warn', 'debug' ) and that's it. <b>if you want a nice UI here, implement it</b></p>
 <p>Uses window.localStorage so lists are persistent but unique per each hostname </p>
 <ul>
     <li>
@@ -18,11 +18,11 @@ console.X functions of your choice ('error', 'log', 'warn' ) and that's it. <b>i
         <small> to add string keyword to the blacklist</small>
     </li>
     <li><em><code>cfu.intercept_fn('error')</code></em>
-        <small>Intercept the console.X function by passing a string of it's name ['error', 'log', 'warn']</small>
+        <small>Intercept the console.X function by passing a string of it's name ['error', 'log', 'warn', 'debug']</small>
     </li>
     <li>
         <em><code>cfu.restore_fn('error')</code></em>
-        <small>Restores the original console.error function by passing a string of it's name ['error', 'log', 'warn']</small>
+        <small>Restores the original console.error function by passing a string of it's name ['error', 'log', 'warn', 'debug']</small>
     </li>
 
     <li>

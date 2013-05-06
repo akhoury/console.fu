@@ -13,7 +13,7 @@
     this.dbkey = "CFU";
     this.origin = window.location.origin;
     var blst = window.localStorage.getItem(this.dbkey+"_"+"blacklist")||"[]";
-    var cfns = window.localStorage.getItem(this.dbkey+"_"+"console_fns")||"{\"log\":false,\"error\":false,\"warn\":false}";
+    var cfns = window.localStorage.getItem(this.dbkey+"_"+"console_fns")||"{\"log\":false,\"error\":false,\"warn\":false,\"debug\":false}";
     this.blacklist = JSON.parse(blst);
     this.console_fns = JSON.parse(cfns);
     this.intercepted_msgs = [];
@@ -22,8 +22,8 @@
   CFU.prototype = {
     old_console_log : console.log,
     old_console_error : console.error,
-    old_console_trace : console.trace,
     old_console_warn : console.warn,
+    old_console_debug : console.debug,
     clear : console.clear,
 
     add_to_blacklist : function (w) {
@@ -51,11 +51,26 @@
     intercept_fn : function (fn) {
       switch (fn) {
         case "log":
-          console.log = this.intercept(console.log, this.blacklist_interceptor);break;
+          var log = this.intercept(window.console.constructor.prototype.log, this.blacklist_interceptor);
+          /* issue #1 - not fixed yet, applies on the rest of the functions as well. */
+          window.console.constructor.prototype.log = log;
+          window.console.log = log;
+          break;
         case "error":
-          console.error = this.intercept(console.error, this.blacklist_interceptor); break;
+          var error = this.intercept(window.console.constructor.prototype.error, this.blacklist_interceptor);
+          window.console.constructor.prototype.error = error;
+          window.console.error = error;
+          break;
         case "warn":
-          console.warn = this.intercept(console.warn, this.blacklist_interceptor); break;
+          var warn = this.intercept(window.console.constructor.prototype.warn, this.blacklist_interceptor);
+          window.console.constructor.prototype.warn = warn;
+          window.console.warn = warn;
+          break;
+        case "debug":
+          var debug = this.intercept(window.console.constructor.prototype.debug, this.blacklist_interceptor);
+          window.console.constructor.prototype.debug = debug;
+          window.console.debug = debug;
+          break;
       }
       this.console_fns[fn] = true;
       this.persist_functions();
@@ -65,11 +80,13 @@
     restore_fn : function (fn) {
       switch (fn) {
         case "log":
-          console.log = this.old_console_log; break;
+          window.console.constructor.prototype.log = this.old_console_log; break;
         case "error":
-          console.error = this.old_console_error; break;
+          window.console.constructor.prototype.error = this.old_console_error; break;
         case "warn":
-          console.warn = this.old_console_warn; break;
+          window.console.constructor.prototype.warn = this.old_console_warn; break;
+        case "debug":
+          window.console.constructor.prototype.debug = this.old_console_debug; break;
       }
       this.console_fns[fn] = false;
       this.persist_functions();
@@ -82,8 +99,10 @@
         Object.keys(args).forEach(function(k){
           self.blacklist.forEach(function(needle){
             var str = self.stringify(args[k]);
+            window.console.log("Indexing STR: " + str + " for needle: " + needle);
             var found = str.indexOf(needle);
             if ( found > -1 ) {
+              window.console.log("Found hit at index: " + found + " not printing");
               self.intercepted_msgs.push({keyword: needle, message: str});
               throw self.BreakException;
             }
