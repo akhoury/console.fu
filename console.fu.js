@@ -9,21 +9,28 @@
   }
 
   var CFU = function () {
-    this.BreakException = {};
+    this.BlacklistHitException = {};
     this.dbkey = "CFU";
     this.origin = window.location.origin;
+
+    // loading window.localStorage if any
     var blst = window.localStorage.getItem(this.dbkey+"_"+"blacklist")||"[]";
     var cfns = window.localStorage.getItem(this.dbkey+"_"+"console_fns")||"{\"log\":false,\"error\":false,\"warn\":false,\"debug\":false}";
     this.blacklist = JSON.parse(blst);
     this.console_fns = JSON.parse(cfns);
+
+    // temp memory only
     this.intercepted_msgs = [];
+
+    //saving references to the original console.x functions
+    this.old_console_log = console.log;
+    this.old_console_error = console.error;
+    this.old_console_warn = console.warn;
+    this.old_console_debug = console.debug;
+    this.old_console_info = console.info;
   };
 
   CFU.prototype = {
-    old_console_log : console.log,
-    old_console_error : console.error,
-    old_console_warn : console.warn,
-    old_console_debug : console.debug,
     clear : console.clear,
 
     add_to_blacklist : function (w) {
@@ -52,7 +59,20 @@
       switch (fn) {
         case "log":
           var log = this.intercept(window.console.constructor.prototype.log, this.blacklist_interceptor);
-          /* issue #1 - not fixed yet, applies on the rest of the functions as well. */
+
+          /*
+              issue #1 - not fixed yet, applies on the rest of the functions as well.
+
+              neither of the two statements is "overriding" the console.x being used by jQuery for example
+              what I don't understand is that jQuery is executing in the same "window" and this extension's script
+              is injected at document_start, on the html element, before jQuery, so, even if jQuery is closing over its own
+              console.x copies, console.x should've been already been overloaded by then ... wtf ?
+
+              to clarify, this script is NOT a background script, this gets injected into EACH page and live in its DOM.
+              see injector.js and manifest.json
+
+          */
+
           window.console.constructor.prototype.log = log;
           window.console.log = log;
           break;
@@ -71,6 +91,11 @@
           window.console.constructor.prototype.debug = debug;
           window.console.debug = debug;
           break;
+        case "info":
+          var info = this.intercept(window.console.constructor.prototype.info, this.blacklist_interceptor);
+          window.console.constructor.prototype.info = info;
+          window.console.info = info;
+          break;
       }
       this.console_fns[fn] = true;
       this.persist_functions();
@@ -86,7 +111,9 @@
         case "warn":
           window.console.constructor.prototype.warn = this.old_console_warn; break;
         case "debug":
-          window.console.constructor.prototype.debug = this.old_console_debug; break;
+        window.console.constructor.prototype.debug = this.old_console_debug; break;
+        case "info":
+          window.console.constructor.prototype.info = this.old_console_info; break;
       }
       this.console_fns[fn] = false;
       this.persist_functions();
@@ -104,7 +131,7 @@
             if ( found > -1 ) {
               window.console.log("Found hit at index: " + found + " not printing");
               self.intercepted_msgs.push({keyword: needle, message: str});
-              throw self.BreakException;
+              throw self.BlacklistHitException;
             }
           });
         });
