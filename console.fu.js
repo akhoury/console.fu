@@ -64,9 +64,11 @@
               issue #1 - not fixed yet, applies on the rest of the functions as well.
 
               neither of the two statements is "overriding" the console.x being used by jQuery for example
-              what I don't understand is that jQuery is executing in the same "window" and this extension's script
-              is injected at document_start, on the html element, before jQuery, so, even if jQuery is closing over its own
-              console.x copies, console.x should've been already been overloaded by then ... wtf ?
+              what I don't understand is the XHR log requests for example, which execute in the same "window"
+              unless it's using a different "logging" probably native.. or if it "closes over" the console.x before
+              this extension's script fires.
+
+              if manually tested in the same "window" console, the overloading works fine, like the README example
 
               to clarify, this script is NOT a background script, this gets injected into EACH page and live in its DOM.
               see injector.js and manifest.json

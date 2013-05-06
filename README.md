@@ -1,6 +1,7 @@
 READ THIS:
 =========
-Turns out I wasted my Sunday; Chrome already supports hiding XHR logs and few other things, not everything, but it's decent.
+Turns out I wasted my Sunday; I wouldn't written this if I did a little more search, or just right-clicked the console,
+Chrome already supports hiding/showing XHR logs since 2011, along with hiding other logs, not everything, but it's decent.
 So I am dropping support for this tool, unless you think I shouldn't for a good reason.
 
 here's how Chrome does it, right click on your console and you will see this:
@@ -10,9 +11,8 @@ here's how Chrome does it, right click on your console and you will see this:
 console.fu, a Chrome Extension
 ==============================
 
-Built this to suppress console.[log,error,warn] messages that spam your dev console,
+Built this to suppress console.[log,error,warn,debug,info] messages that spam your dev console,
 use keywords to blacklist messages
-> when debugging a highly active Ajaxy page, I f*cking hate the non stop XHR message spam !
 
 Usage (in console)
 ==================
@@ -23,10 +23,20 @@ console.error("fun foo yeuu");
 
 // now let's block this message from printing again
 cfu.add_to_blacklist("foo")
+
+// maybe these 3 functions only
 cfu.intercept_fn('error')
+cfu.intercept_fn('log')
+cfu.intercept_fn('info')
 
 console.error("fun foo yeuu");
+console.log("fun foo yeuu");
+console.info("fun foo yeuu");
 // nothing prints
+
+// this one is NOT being intercepted
+console.debug("fun foo yeuu");
+> fun food yeuu
 
 /* Moar things */
 
