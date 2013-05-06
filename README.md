@@ -1,7 +1,7 @@
 console.fu, a Chrome Extension
 ==============================
 
-Built this to suppress console.[log,error,warn,trace] messages that spam your dev console,
+Built this to suppress console.[log,error,warn] messages that spam your dev console,
 use keywords to blacklist messages
 > when debugging a highly active Ajaxy page, I f*cking hate the non stop XHR message spam !
 
@@ -9,12 +9,32 @@ Usage (in console)
 ==================
 
 ```javascript
+console.error("fun foo yeuu");
+> fun foo yeuu
 
-cfu.add_to_blacklist("Unsafe JavaScript attempt to access frame with URL")
+// now let's block this message from printing again
+cfu.add_to_blacklist("foo")
 cfu.intercept_fn('error')
+
+console.error("fun foo yeuu");
+// nothing prints
+
+/* Moar things */
 
 // restore the functions to default
 cfu.restore_fn('error')
+
+// or maybe remove the keyword
+cfu.remove_from_blacklist("foo")
+
+// or just blow the whole list
+cfu.clear_blacklist()
+
+// make sure it's gone
+cfu.get_blacklist()
+> []
+
+// that's all for now
 
 ```
 

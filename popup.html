@@ -2,24 +2,27 @@
 <head>
     <style>
         div, td, th { color: black; }
+        body { font-family: Verdana, Geneva, sans-serif }
     </style>
 </head>
-<body style="width: 400px">
+<body style="width: 600px">
+<h2><img src='img/icon-64.png'/> console.fu</h2>
 <h3>hAlp!</h3>
 <p> a quick hack to intercept the console.X functions and stop them from spamming your console.</p>
 <p> Go to the page's console that your debugging, and add keywords to its blacklist, then intercept the
-console.X functions of your choice ('error', 'log', 'warn', 'trace' ) and that's it. if you want a nice UI here, implement it</p>
+console.X functions of your choice ('error', 'log', 'warn' ) and that's it. if you want a nice UI here, implement it</p>
+<p>Uses window.localStorage so lists are persistent but unique per each hostname </p>
 <ul>
     <li>
         <em><code>cfu.add_to_blacklist("keyword")</code></em>
         <small> to add string keyword to the blacklist</small>
     </li>
     <li><em><code>cfu.intercept_fn('error')</code></em>
-        <small>Intercept the console.X function by passing a string of it's name ['error', 'log', 'warn', 'trace']</small>
+        <small>Intercept the console.X function by passing a string of it's name ['error', 'log', 'warn']</small>
     </li>
     <li>
         <em><code>cfu.restore_fn('error')</code></em>
-        <small>Restore the original console.X function by passing a string of it's name ['error', 'log', 'warn', 'trace']</small>
+        <small>Restores the original console.error function by passing a string of it's name ['error', 'log', 'warn']</small>
     </li>
 
     <li>

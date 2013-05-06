@@ -9,23 +9,15 @@
     }
     
     var CFU = function () {
+        this.debug = false;
         this.BreakException = {};
         this.dbkey = "CFU";
         this.origin = window.location.origin;
-
-        var blst_str = window.localStorage.getItem(this.dbkey + "_" + "blacklist");
-        this.blacklist = JSON.parse( blst_str || "[]" );
-
-        var fns_str = window.localStorage.getItem(this.dbkey + "_" + "console_fns");
-        this.console_fns = JSON.parse( fns_str || "{}" );
-
+        var blst = window.localStorage.getItem(this.dbkey+"_"+"blacklist")||"[]";
+        var cfns = window.localStorage.getItem(this.dbkey+"_"+"console_fns")||"{\"log\":false,\"error\":false,\"warn\":false}";
+        this.blacklist = JSON.parse(blst);
+        this.console_fns = JSON.parse(cfns);
         this.intercepted_msgs = [];
-
-        var self = this;
-        Object.keys(this.console_fns).forEach(function(k) {
-            if (self.console_fns[k] == true)
-                self.intercept(k);
-        });
     };
 
     CFU.prototype = {
@@ -50,7 +42,7 @@
 
         clear_blacklist : function () {
             this.blacklist = [];
-            window.localStorage.clear();
+            window.localStorage.setItem(this.dbkey + "_" + "blacklist", JSON.stringify("[]"));
         },
 
         get_blacklist : function () {
@@ -60,12 +52,9 @@
         intercept_fn : function (fn) {
             switch (fn) {
                 case "log":
-                    console.log = this.intercept(console.log, this.blacklist_interceptor);
-                    break;
+                    console.log = this.intercept(console.log, this.blacklist_interceptor);break;
                 case "error":
                     console.error = this.intercept(console.error, this.blacklist_interceptor); break;
-                case "trace":
-                    console.trace = this.intercept(console.trace, this.blacklist_interceptor); break;
                 case "warn":
                     console.warn = this.intercept(console.warn, this.blacklist_interceptor); break;
             }
@@ -74,14 +63,12 @@
 
         },
 
-        restore_fn : function (fn_prop) {
-            switch (fn_prop) {
+        restore_fn : function (fn) {
+            switch (fn) {
                 case "log":
                     console.log = this.old_console_log; break;
                 case "error":
                     console.error = this.old_console_error; break;
-                case "trace":
-                    console.trace = this.old_console_trace; break;
                 case "warn":
                     console.warn = this.old_console_warn; break;
             }
@@ -90,12 +77,15 @@
         },
 
         blacklist_interceptor : function(){
-            var self = this.cfu
+            var self = window.cfu
               , args = Array.prototype.slice.call(arguments)[0];
+            if (self.debug) console.log("[cfu:debug] args: " + args);
             try {
                 Object.keys(args).forEach(function(k){
                     self.blacklist.forEach(function(needle){
+                        if (self.debug) console.log("[cfu:debug] needle: " + needle);
                         var found = args[k].toString().indexOf(needle);
+                        if (self.debug) console.log("[cfu:debug] found at " + found);
                         if ( found > -1 ) {
                             self.intercepted_msgs.push({keyword: needle, message: JSON.stringify(args)});
                             throw self.BreakException;
@@ -142,5 +132,12 @@
     };
 
     var cfu = window.cfu = new CFU();
+    Object.keys(cfu.console_fns).forEach(function(k) {
+        if (cfu.debug) console.log("[cfu:debug] key: " + k + " value: " + cfu.console_fns[k]);
+        if (cfu.console_fns[k]) {
+            if (cfu.debug) console.log("[cfu:debug] intercepting: " + k );
+            cfu.intercept_fn(k);
+        }
+    });
     console.log("[cfu] loaded");
 })();
