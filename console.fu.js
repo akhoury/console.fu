@@ -79,13 +79,10 @@
         blacklist_interceptor : function(){
             var self = window.cfu
               , args = Array.prototype.slice.call(arguments)[0];
-            if (self.debug) console.log("[cfu:debug] args: " + args);
             try {
                 Object.keys(args).forEach(function(k){
                     self.blacklist.forEach(function(needle){
-                        if (self.debug) console.log("[cfu:debug] needle: " + needle);
                         var found = args[k].toString().indexOf(needle);
-                        if (self.debug) console.log("[cfu:debug] found at " + found);
                         if ( found > -1 ) {
                             self.intercepted_msgs.push({keyword: needle, message: JSON.stringify(args)});
                             throw self.BreakException;
@@ -133,9 +130,7 @@
 
     var cfu = window.cfu = new CFU();
     Object.keys(cfu.console_fns).forEach(function(k) {
-        if (cfu.debug) console.log("[cfu:debug] key: " + k + " value: " + cfu.console_fns[k]);
         if (cfu.console_fns[k]) {
-            if (cfu.debug) console.log("[cfu:debug] intercepting: " + k );
             cfu.intercept_fn(k);
         }
     });
