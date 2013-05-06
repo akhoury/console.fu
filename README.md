@@ -3,7 +3,7 @@ READ THIS:
 Turns out I wasted my Sunday; I wouldn't written this if I did a little more search, or just right-clicked the console,
 Chrome already supports hiding/showing XHR logs since 2011, along with hiding other logs, not everything, but it's decent.
 So I am dropping support for this tool, unless you think I shouldn't for a good reason - too bad, I had a good run and
-and a nice logo ![cfu logo](img/icon-64.png "fu")
+and a nice logo ![cfu logo](img/icon-48.png "fu")
 
 Anyways, here's how Chrome does it, right click on your console and you will see this:
 
