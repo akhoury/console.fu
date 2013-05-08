@@ -2,12 +2,15 @@ READ THIS:
 =========
 Turns out I wasted my Sunday; I wouldn't written this if I did a little more search, or just right-clicked the console,
 Chrome already supports hiding/showing XHR logs since 2011, along with hiding other logs, not everything, but it's decent.
-So I am dropping support for this tool, unless you think I shouldn't for a good reason - too bad, I had a good run and
-and a nice logo ![cfu logo](img/icon-48.png "fu")
+So, that being said, ***I am dropping support*** for this tool, unless you think I shouldn't for a good reason - too bad, I had a good run and
+and a nice logo ![cfu logo](img/icon-48.png "fu") - Maybe one day I'll come back at it when the [DevTools console api](http://developer.chrome.com/extensions/experimental.devtools.console.html "DevTools console api") gets out of experimental.
 
 Anyways, here's how Chrome does it, right click on your console and you will see this:
 
 ![Right-Click on console](img/shot.png "Chrome dev tool")
+
+also you can filter the logs like this:
+![Log filter](img/shot2.png "logs filter")
 
 console.fu, a Chrome Extension
 ==============================
@@ -61,6 +64,7 @@ cfu.get_blacklist()
 Install
 =======
 it's not on the Chrome extension market because it's still shitty.
+
 
 ```sh
 git clone https://github.com/akhoury/console.fu.git

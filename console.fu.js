@@ -60,6 +60,7 @@
         case "log":
           var log = this.intercept(window.console.constructor.prototype.log, this.blacklist_interceptor);
 
+
           /*
               issue #1 - not fixed yet, applies on the rest of the functions as well.
 
@@ -72,6 +73,8 @@
 
               to clarify, this script is NOT a background script, this gets injected into EACH page and live in its DOM.
               see injector.js and manifest.json
+
+              window.onerror is not catching these either.
 
           */
 
