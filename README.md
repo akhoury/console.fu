@@ -9,7 +9,7 @@ Anyways, here's how Chrome does it, right click on your console and you will see
 
 ![Right-Click on console](img/shot.png "Chrome dev tool")
 
-also you can filter the logs like this:
+also you can filter the logs by toggling the buttons on the bottom: All, Errors, Warnings, Logs, Debug - here's screenshot.
 ![Log filter](img/shot2.png "logs filter")
 
 console.fu, a Chrome Extension
